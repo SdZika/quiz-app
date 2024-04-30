@@ -18,23 +18,52 @@ const questions = [
 
 let currentQuestionIndex = 0;
 let score = 0;
-//function loadQuestion()
-
  
-    let questionElement = document.getElementById("question");
-    let answerElement = document.getElementById("answers");
+ // Why this stands for? Because it is falsy value?
 
-    //answerElement.innerHTML = ""; // Why this stands for? Because it is falsy value?
+function loadQuestion(){
+    const questionElement = document.getElementById("question");
+    const answerElement = document.getElementById("answers");
+    answerElement.innerHTML = "";
 
-    let currentQuestion = questions[currentQuestionIndex];
+    const currentQuestion = questions[currentQuestionIndex];
 
     questionElement.textContent = currentQuestion.question;
-
-    for (let i = 0; i < currentQuestion.answers.length; i++) {
-        let button = document.createElement("button");
-        button.textContent = currentQuestion.answers[i];
-        answerElement.appendChild(button);
-    }
     
+    currentQuestion.answers.forEach((answer, index) => {
+        const button = document.createElement("button");
+        //button.className = "answer";
+        button.textContent = answer;
+        button.addEventListener("click", () => selectChoice(index));
+        answerElement.appendChild(button);
+    });
+};
+
+function selectChoice(index) {
+    const currentQuestion = questions[currentQuestionIndex];
+    
+    if (index === currentQuestion.correct) {
+        score ++;
+    }
+    currentQuestionIndex ++;
+    if (currentQuestionIndex < questions.length) {
+        loadQuestion();
+    } else {
+        displayScore();
+    }
+   }
+
+function displayScore() {
+    const scoreDisplay = document.getElementById("score");
+    scoreDisplay.textContent = `Your score is ${score} out of ${questions.length}`
+   }
+
+document.getElementById("next-btn").addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+        loadQuestion();
+    }
+   });
+   
+document.addEventListener("DOMContentLoaded", loadQuestion); 
 
 
