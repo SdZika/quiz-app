@@ -59,8 +59,11 @@ function displayScore() {
    }
 
 document.getElementById("next-btn").addEventListener("click", () => {
+    currentQuestionIndex++;
     if (currentQuestionIndex < questions.length) {
         loadQuestion();
+    } else {
+        displayScore();
     }
    });
    
